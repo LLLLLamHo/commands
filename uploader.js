@@ -47,12 +47,13 @@ fs.stat(filepath, function (err, stat) {
   shasum.update([process.env.agentid || os.hostname(), token, nonce, id].join(''));
   var sign = shasum.digest('hex');
 
-  var url = 'http://' + server + '/files/' + id + '?nonce=' + nonce + '&sign=' + sign + '&type=' + type;
-
+  var url = 'http://' + server + '/api/nodeMonitor/performance/file?id=' + id + '&nonce=' + nonce + '&sign=' + sign + '&type=' + type;
+  // var url = 'http://' + server + '/files/' + id + '?nonce=' + nonce + '&sign=' + sign + '&type=' + type;
   var gateway = process.env.GATEWAY;
   if (gateway) {
     // upload to gateway
-    url = 'http://' + gateway + '/file?target=' + encodeURIComponent(url);
+    url = 'http://' + gateway + '/api/nodeMonitor/performance/file?target=' + encodeURIComponent(url);
+    // url = 'http://' + gateway + '/file?target=' + encodeURIComponent(url);
   }
 
   var agent = false;
@@ -74,13 +75,10 @@ fs.stat(filepath, function (err, stat) {
     stream: form,
     agent: agent
   };
-
   urllib.request(url, opts, function (err, data, res) {
     if (err) {
       throw err;
     }
-
-    console.log(JSON.stringify(data));
     process.exit(0);
   });
 });
