@@ -15,6 +15,11 @@ var filepath = argv[1];
 var token = argv[2];
 var id = argv[3];
 var type = argv[4];
+// var server = 'node.zuzuche.net:3000';
+// var filepath = '/tmp/heapdump-19849-20191101-143753.heapsnapshot.gz';
+// var token = '7f3dec5c37e7a46e5949e47caf85752c';
+// var id = '149206';
+// var type = 'oss';
 
 // check args
 if (!server || !filepath || !token || !id) {
@@ -79,6 +84,7 @@ fs.stat(filepath, function (err, stat) {
     if (err) {
       throw err;
     }
+    console.log(JSON.stringify(data));
     process.exit(0);
   });
 });
